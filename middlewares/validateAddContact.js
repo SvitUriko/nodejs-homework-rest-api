@@ -2,7 +2,7 @@ import { HttpError } from "../helpers/index.js";
 
 import { contactAddSchema } from "../schemas/contacts-schemas.js";
 
-const validateContact = (req, res, next) => {
+const validateAddContact = (req, res, next) => {
   const { error } = contactAddSchema.validate(req.body);
   if (error) {
     let errorMessage;
@@ -18,4 +18,4 @@ const validateContact = (req, res, next) => {
   next();
 };
 
-export default validateContact;
+export default validateAddContact;
