@@ -1,11 +1,14 @@
 //import * as contactsService from "../models/contacts/index.js";
-import Contact from "../models/contacts/Contact.js";
+import Contact from "../models/Contact.js";
 
 import { HttpError } from "../helpers/index.js";
 
 const listContacts = async (req, res, next) => {
   try {
-    const result = await Contact.find();
+    const { _id: owner } = req.user;
+    const { page = 1, limit = 20 } = req.query;
+    const skip = (page - 1) * limit;
+    const result = await Contact.find({ owner }, { skip, limit });
 
     res.json(result);
   } catch (error) {
@@ -29,7 +32,8 @@ const getById = async (req, res, next) => {
 
 const addContact = async (req, res, next) => {
   try {
-    const result = await Contact.create(req.body);
+    const { _id: owner } = req.user;
+    const result = await Contact.create({ ...req.body, owner });
     res.status(201).json(result);
   } catch (error) {
     next(error);
@@ -52,12 +56,15 @@ const updateById = async (req, res, next) => {
   }
 };
 
-/*const updateStatusContact = async (req, res, next) => {
+const updateStatusContact = async (req, res, next) => {
   try {
     const { contactId } = req.params;
     const result = await Contact.findByIdAndUpdate(contactId, req.body, {
       new: true,
     });
+    if (!req.body) {
+      throw HttpError(400, "missing field favorite");
+    }
     if (!result) {
       throw HttpError(404, "Not found");
     }
@@ -66,7 +73,7 @@ const updateById = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};*/
+};
 
 const deleteById = async (req, res, next) => {
   try {
@@ -90,5 +97,5 @@ export default {
   addContact,
   updateById,
   deleteById,
-  //updateStatusContact,
+  updateStatusContact,
 };
