@@ -2,6 +2,7 @@ import express from "express";
 
 import {
   authenticate,
+  upload,
   isEmptyBody,
   validateUser,
 } from "../../middlewares/index.js";
@@ -29,5 +30,12 @@ authRouter.post(
 authRouter.get("/current", authenticate, authController.getCurrent);
 
 authRouter.post("/logout", authenticate, authController.logout);
+
+authRouter.patch(
+  "/avatars",
+  authenticate,
+  upload.single("avatar"),
+  authController.updateAvatar
+);
 
 export default authRouter;

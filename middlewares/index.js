@@ -3,6 +3,7 @@ export { default as isEmptyBody } from "./isEmptyBody.js";
 export { default as validateBody } from "./validateBody.js";
 export { default as validateUser } from "./validateUser.js";
 export { default as authenticate } from "./authenticate.js";
+export { default as upload } from "./upload.js";
 
 export { default as validateAddContact } from "./validateAddContact.js";
 export { default as validateUpdateContact } from "./validateUpdateContact.js";
