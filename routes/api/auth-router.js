@@ -7,7 +7,7 @@ import {
   validateUser,
 } from "../../middlewares/index.js";
 
-import { userRegisterSchema } from "../../schemas/user-schemas.js";
+import { userRegisterSchema, emailSchema } from "../../schemas/user-schemas.js";
 
 import authController from "../../controllers/auth-controller.js";
 
@@ -18,6 +18,15 @@ authRouter.post(
   isEmptyBody,
   validateUser(userRegisterSchema),
   authController.register
+);
+
+authRouter.get("/verify/:verificationToken", authController.verify);
+
+authRouter.post(
+  "/verify",
+  isEmptyBody,
+  validateUser(emailSchema),
+  authController.resendVerifyEmail
 );
 
 authRouter.post(

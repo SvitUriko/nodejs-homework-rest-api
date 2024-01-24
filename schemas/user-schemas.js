@@ -9,3 +9,7 @@ export const userRegisterSchema = Joi.object({
     .valid("starter", "pro", "business")
     .default("starter"),
 });
+
+export const emailSchema = Joi.object({
+  email: Joi.string().pattern(emailRegexp).required(),
+});
